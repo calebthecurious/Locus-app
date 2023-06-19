@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guide {
+  id            Int       @id   @default(autoincrement())
+  name          String
+  main_image    String
+  images        String[]
+  description   String
+  availability  String
+  slug          String    @unique
+  price         PRICE
+  Skills        Skill[]
+  location_id   Int
+  location      Location @relation(fields: [location_id], references: [id])
+  category_id   Int
+  category      Category @relation(fields: [category_id], references: [id])
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+}
+
+model Skill {
+  id            Int       @id @default(autoincrement())
+  name          String
+  price         String
+  description   String
+  guide_id      Int
+  guide         Guide @relation(fields: [guide_id], references: [id])
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+}
+
+model Location {
+  id            Int       @id   @default(autoincrement())
+  name          String
+  guides        Guide[]
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+}
+
+model Category {
+  id            Int       @id   @default(autoincrement())
+  name          String
+  guides        Guide[]
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+}
+
+enum PRICE {
+  CHEAP
+  REGULAR
+  EXPENSIVE
+}
