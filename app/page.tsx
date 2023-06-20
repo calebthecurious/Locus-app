@@ -1,15 +1,47 @@
-import Header from './components/Header'
-import GuideCard from './components/guideCard'
+import Header from './components/Header';
+import GuideCard from './components/guideCard';
+import { PrismaClient, Category, Location, PRICE } from '@prisma/client';
 
-export default function Home() {
+export  interface GuideCardType {
+  id: number;
+  name: string;
+  main_image: string;
+  location: Location;
+  price: PRICE;
+  slug: string;
+}
+
+const prisma = new PrismaClient();
+
+const fetchGuides = async (): Promise<GuideCardType[]> => {
+  const guides = await prisma.guide.findMany({
+    select: {
+      id: true,
+      name: true,
+      main_image: true,
+      category: true,
+      slug: true,
+      location: true,
+      price: true,
+    },
+  });
+
+  return guides;
+};
+
+export default async function Home() {
+  const guides = await fetchGuides();
+
 
   return (
 
       <main>
         <Header />
         <div className="py-3 px-36 mt-10 flex flex-wrap">
-          <GuideCard />
-        </div>
+          {guides.map((guide) => (
+            <GuideCard guide={guide}/>
+          ))}
+        </div> 
       </main>
 
 

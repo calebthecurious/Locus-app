@@ -7,7 +7,7 @@ export default function SkillsMenu(){
     return (
 <>
 
-                <div className="bg-white w-[100%] rounded p-3 shadow">
+                <div className="bg-white w-[100%] rou nded p-3 shadow">
                     <GuideNavBar />
                     <Skills />
                 </div>
