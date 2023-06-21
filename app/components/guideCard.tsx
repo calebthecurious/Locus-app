@@ -20,7 +20,7 @@ export default function GuideCard({guide}: Props) {
                 <p className="ml-2">77 reviews</p>
             </div>
             <div className="flex text-reg font-light capitalize">
-                <p className="mr-3 ">{guide.location.name}</p>
+                <p className="mr-3 ">{guide.category.name}</p>
                 <Price price={guide.price}/>
                 <p>Collingwood</p>
             </div>

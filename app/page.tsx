@@ -6,6 +6,7 @@ export  interface GuideCardType {
   id: number;
   name: string;
   main_image: string;
+  category: Category;
   location: Location;
   price: PRICE;
   slug: string;

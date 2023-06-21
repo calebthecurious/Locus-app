@@ -1,7 +1,8 @@
 import React from 'react'
 import SkillCard from './SkillCard'
+import { Skill } from '@prisma/client'
 
-export default function Skills() {
+export default function Skills({skills}: {skills: Skill[]}) {
     return (
         <main className="bg-white mt-5">
             <div className="">
@@ -10,10 +11,18 @@ export default function Skills() {
                     Catalogue
                 </h1>
                 </div>
+                {skills.length ? (
                 <div className="flex flex-wrap justify-between">
-                <SkillCard />
+                {skills.map(skill => (
+                    <SkillCard key={skill.id} skill={skill} />
+                ))}
                 </div>
+                ): (
+                    <div className="flex flex-wrap justify-between">
+                        <p>This guide does not have any skills to teach yet.</p>
+                    </div>
+                )}
             </div>
-        </main>
+        </main> 
     )
     }
