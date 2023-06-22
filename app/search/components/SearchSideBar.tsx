@@ -1,21 +1,24 @@
-export default function SearchSideBar() {
+import { Category } from "@prisma/client";
+
+export default function SearchSideBar({
+    locations, categories
+}: {
+    locations: Location[],
+    categories: Category[],
+}) {
     return (
         <div className="w-1/5">
             <div className="border-b pb-4">
             <h1 className="mb-2">Region</h1>
-            <p className="font-light text-reg">Melbourne</p>
-            <p className="font-light text-reg">Collingwood</p>
-            <p className="font-light text-reg">Richmond</p>
-            <p className="font-light text-reg">Prahran</p>
-            <p className="font-light text-reg">North Melbourne</p>
+            {locations.map(location => (
+                <p className="font-light text-reg capitalize" key={location.id}>{location.name}</p>
+            ))}
             </div>
-            <div className="border-b pb-4 mt-3">
+            <div className="border-b pb-4 mt- 3">
             <h1 className="mb-2">Category</h1>
-            <p className="font-light text-reg">Home Skills</p>
-            <p className="font-light text-reg">Creative Skills</p>
-            <p className="font-light text-reg">Technical Skills</p>
-            <p className="font-light text-reg">Social Skills</p>
-            <p className="font-light text-reg">Academic Skills</p>
+            {categories.map(category => (
+                <p className="font-light text-reg capitalize" key={category.id}>{category.name}</p>
+            ))}
             </div>
             <div className="pb-4 mt-3">
             <h1 className="mb-2">Price</h1>
