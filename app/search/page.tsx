@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PRICE, PrismaClient } from "@prisma/client";
 import Header from "../components/Header";
 import GuideCard from "./components/GuideCard";
 
@@ -6,7 +6,34 @@ import SearchSideBar from "./components/SearchSideBar";
 
 const prisma = new PrismaClient()
 
-const fetchGUideByCity = (city: string | undefined ) => {
+interface SearchParams { city?: string; category?: string; price?: PRICE}
+
+const fetchGUideByCity = ( searchParams: SearchParams ) => {
+const where: any = {};
+
+if(searchParams.city) {
+  const location = {
+    name: {
+      equals: searchParams.city.toLowerCase()
+    }
+  }
+  where.location = location  
+}
+if(searchParams.category) {
+  const category = {
+    name: {
+      equals: searchParams.category.toLowerCase()
+    }
+  }
+  where.category = category
+}
+if(searchParams.price) {
+  const price = {
+    equals: searchParams.price
+  }
+  where.price = price
+}
+
 
 const select = {
   id: true,
@@ -18,16 +45,8 @@ const select = {
   slug: true,
 }
 
-  if(!city) return prisma.guide.findMany({select});
-
   return prisma.guide.findMany({
-    where: {
-      location: { 
-        name: {
-          equals: city.toLowerCase(),
-        },
-      },
-    },
+    where,
     select,
   });
 };
@@ -41,15 +60,13 @@ const fetchCategory = async () => {
 }
 
 export default async function Search({
-  searchParams
+  searchParams,
 }: {
-  searchParams: {city: string}
+  searchParams: SearchParams;
 }) {
-    const guides = await fetchGUideByCity(searchParams.city)
+    const guides = await fetchGUideByCity(searchParams)
     const location = await fetchLocations();
     const category = await fetchCategory();
-
-    console.log({ guides });
     return (
       <>
           <Header />  
@@ -57,6 +74,7 @@ export default async function Search({
             <SearchSideBar 
               locations={location}
               categories={category}
+              searchParams={searchParams}
             />
             <div className="w-5/6">
               {guides.length ? (
