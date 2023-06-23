@@ -43,6 +43,7 @@ const select = {
   category: true,
   location: true,
   slug: true,
+  reviews: true,
 }
 
   return prisma.guide.findMany({

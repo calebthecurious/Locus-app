@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Review } from "@prisma/client";
 import NavBar from "../../components/NavBar";
 import BookingCard from "./components/BookingCard";
 import Description from "./components/Description";
@@ -17,6 +17,7 @@ interface Guide {
     images: string[];
     description: string;
     slug: string;
+    reviews: Review[];
 }
 
 const fetchGuideBySlug = async (slug: string):Promise<Guide> => {
@@ -30,6 +31,7 @@ const fetchGuideBySlug = async (slug: string):Promise<Guide> => {
             images: true,
             description: true,
             slug: true,
+            reviews: true,
         }
     });
 
@@ -50,10 +52,10 @@ export default async function GuideDetails({params}: {params: {slug:string}}) {
         <div className="bg-white w-[70%] rounded p-3 shadow">
             <GuideNavBar slug={guide.slug} />
             <Title name={guide.name}/>
-            <Rating />
+            <Rating reviews={guide.reviews}/>
             <Description description={guide.description}/>
             <Images images={guide.images}/>
-            <Reviews />
+            <Reviews reviews={guide.reviews}/>
         </div>
         <div className="w-[27%] relative text-reg ">
             <BookingCard />

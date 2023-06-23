@@ -1,6 +1,6 @@
 import Header from './components/Header';
 import GuideCard from './components/guideCard';
-import { PrismaClient, Category, Location, PRICE } from '@prisma/client';
+import { PrismaClient, Category, Location, PRICE, Review } from '@prisma/client';
 
 export  interface GuideCardType {
   id: number;
@@ -10,6 +10,7 @@ export  interface GuideCardType {
   location: Location;
   price: PRICE;
   slug: string;
+  reviews: Review[];
 }
 
 const prisma = new PrismaClient();
@@ -24,6 +25,7 @@ const fetchGuides = async (): Promise<GuideCardType[]> => {
       slug: true,
       location: true,
       price: true,
+      reviews: true,
     },
   });
 

@@ -24,6 +24,7 @@ model Guide {
   location      Location  @relation(fields: [location_id], references: [id])
   category_id   Int
   category      Category  @relation(fields: [category_id], references: [id])
+  reviews       Review[]
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
 }
@@ -53,6 +54,31 @@ model Category {
   guides        Guide[]
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
+}
+
+model User {
+  id            Int       @id   @default(autoincrement())
+  first_name String
+  last_name String
+  city String
+  password String
+  email String
+  phone String
+  reviews Review[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+} 
+
+model Review {
+  id            Int       @id   @default(autoincrement())
+  first_name    String
+  last_name     String
+  text          String
+  rating        Float
+  guide_id      Int
+  guide Guide @relation(fields: [guide_id], references: [id])
+  user_id      Int
+  user User @relation(fields: [user_id], references: [id])
 }
 
 enum PRICE {
