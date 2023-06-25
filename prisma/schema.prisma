@@ -65,7 +65,7 @@ model User {
   email String
   phone String
   reviews Review[]
-  created_at DateTime @default(now())
+  created_at DateTime @default(now()) 
   updated_at DateTime @updatedAt
 } 
 
