@@ -8,6 +8,7 @@ import Images from "./components/Images";
 import Rating from "./components/Rating";
 import Reviews from "./components/Reviews";
 import Title from "./components/TItle";
+import { notFound } from "next/navigation";
 
 const prisma = new PrismaClient()
 
@@ -36,7 +37,7 @@ const fetchGuideBySlug = async (slug: string):Promise<Guide> => {
     });
 
     if(!guide) {
-        throw new Error()
+        notFound();
     }
 
     return guide;
