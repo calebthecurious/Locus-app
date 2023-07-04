@@ -4,6 +4,8 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import * as jose from "jose";
 
+import { TextEncoder } from "util";
+
 const prisma = new PrismaClient();
 
 export default async function handler(
@@ -84,7 +86,7 @@ export default async function handler(
         
         const alg = "HS256";
 
-        const secret = new TextEncoder().encode(process.env.JWTSecret)
+        const secret = new TextEncoder().encode(process.env.JWTSecret);
 
         const token = await new jose.SignJWT({
             email: user.email,
