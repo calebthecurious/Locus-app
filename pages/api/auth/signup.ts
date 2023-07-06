@@ -86,7 +86,7 @@ export default async function handler(
         
         const alg = "HS256";
 
-        const secret = new TextEncoder().encode(process.env.JWTSecret);
+        const secret = new TextEncoder().encode(process.env.JWT_Secret);
 
         const token = await new jose.SignJWT({
             email: user.email,
