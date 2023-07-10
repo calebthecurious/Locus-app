@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import AuthModalInputs from './AuthModalInputs';
 import useAuth from '../../hooks/useAuth';
+import { AuthenticationContext } from '../context/AuthContext';
+import { Alert, CircularProgress } from '@mui/material';
 
 const style = {
     position: 'absolute',
@@ -23,25 +25,26 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const { signin } = useAuth();
+    const {loading, data, error} = useContext(AuthenticationContext)
 
     const renderContent = (signInContent: string, signupContent: string) =>
         isSignin ? signInContent : signupContent;
 
-    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputs({
-        ...inputs,
-        [e.target.name]: e.target.value,
-        });
-    };
+        const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+            setInputs({
+                ...inputs,
+                [e.target.name]: e.target.value,
+                });
+            };
 
-    const [inputs, setInputs] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        city: '',
-        password: '',
-    });
+            const [inputs, setInputs] = useState({
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: '',
+                city: '',
+                password: '',
+            });
 
     const [disabled, setDisabled] = useState(true);
 
@@ -68,7 +71,7 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
 
     const handleClick = () => {
         if (isSignin) {
-        signin({ email: inputs.email, password: inputs.password });
+        signin({ email: inputs.email, password: inputs.password }, handleClose);
         }
     };
 
@@ -88,28 +91,38 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
-            <div className="p-2 h-[400px]">
-
-                <div className="uppercase font-bold text-center pb-2 border-b mb-2">
-                <p className="text-sm">
-                    {renderContent('Sign in', 'Create Account')}
-                </p>
+            {loading ? (
+                <div className='px-4 h-[600px] flex justify-center'>
+                <CircularProgress />
                 </div>
-                <div className="m-auto bg-blue-400">
-                <h2 className="text-2xl font-light text-center">
-                    {renderContent('Log in to your account', 'Create your Locus Account')}
-                </h2>
-                <AuthModalInputs inputs={inputs} handleChangeInput={handleChangeInput} isSignin={isSignin} />
-                <button
-                    className=
-                    'uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400'
-                    disabled={disabled}
-                    onClick={handleClick}
-                >
-                    {renderContent('Sign In', 'Create Account')}
-                </button>
+            ) : <div className="p-2 h-[400px]">
+                { error ? 
+                    <Alert 
+                        severity="error" 
+                        className='mb-4'>
+                            This is an error!
+                    </Alert> : null }                    
+                    <div className="uppercase font-bold text-center pb-2 border-b mb-2">
+                    <p className="text-sm">
+                        {renderContent('Sign in', 'Create Account')}
+                    </p>
+                    </div>
+                    <div className="m-auto bg-blue-400">
+                    <h2 className="text-2xl font-light text-center">
+                        {renderContent('Log in to your account', 'Create your Locus Account')}
+                        {data?.city}
+                    </h2>
+                    <AuthModalInputs inputs={inputs} handleChangeInput={handleChangeInput} isSignin={isSignin} />
+                    <button
+                        className=
+                        'uppercase bg-red-600 w-full text-white p-3 rounded text-sm mb-5 disabled:bg-gray-400'
+                        disabled={disabled}
+                        onClick={handleClick}
+                    >
+                        {renderContent('Sign In', 'Create Account')}
+                    </button>
                 </div>
-            </div>
+            </div>}
             </Box>
         </Modal>
         </div>
