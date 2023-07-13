@@ -114,9 +114,7 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
                         {renderContent('Log in to your account', 'Create your Locus Account')}
                         {data?.city}
                     </h2>
-                    <p>
-                        {data?.firstName} {data?.lastName}
-                    </p>
+
                     <AuthModalInputs inputs={inputs} handleChangeInput={handleChangeInput} isSignin={isSignin} />
                     <button
                         className=
@@ -133,8 +131,6 @@ export default function AuthModal({ isSignin }: { isSignin: boolean }) {
         </div>
     );
 }
-
-
 
 
 

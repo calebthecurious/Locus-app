@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import GuideNavBar from "../components/GuideNavBar";
+import skills from "../components/Skills";
 import Skills from "../components/Skills";
 
 const prisma = new PrismaClient();
@@ -10,14 +11,14 @@ const fetchGUideSkills = async (slug: string) => {
             slug
         },
         select: {
-            Skills: true
+            skills: true
         }
     })
     if(!guide){
         throw new Error
     }
 
-    return guide.Skills
+    return guide.skills
 }
 
 export default async function SkillsMenu({
@@ -26,7 +27,7 @@ export default async function SkillsMenu({
     params: { slug: string };
 }) {
     const skill = await fetchGUideSkills(params.slug)
-    console.log({ Skills })
+
     return (
         <>
             <div className="bg-white w-[100%] rou nded p-3 shadow">

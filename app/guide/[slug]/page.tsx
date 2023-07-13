@@ -47,7 +47,7 @@ export default async function GuideDetails({params}: {params: {slug:string}}) {
 
     const guide = await fetchGuideBySlug(params.slug)
 
-    console.log({guide})
+
     return (
     <>
         <div className="bg-white w-[70%] rounded p-3 shadow">
