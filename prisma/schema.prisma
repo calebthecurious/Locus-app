@@ -17,6 +17,7 @@ model Guide {
   images        String[]
   description   String
   availability  String
+  not_available String
   slug          String    @unique
   price         PRICE
   skills        Skill[]

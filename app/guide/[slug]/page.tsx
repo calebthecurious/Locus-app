@@ -19,6 +19,8 @@ interface Guide {
     description: string;
     slug: string;
     reviews: Review[];
+    availability: string;
+    not_available: string;
 }
 
 const fetchGuideBySlug = async (slug: string):Promise<Guide> => {
@@ -33,6 +35,8 @@ const fetchGuideBySlug = async (slug: string):Promise<Guide> => {
             description: true,
             slug: true,
             reviews: true,
+            availability: true,
+            not_available: true,
         }
     });
 
@@ -59,7 +63,10 @@ export default async function GuideDetails({params}: {params: {slug:string}}) {
             <Reviews reviews={guide.reviews}/>
         </div>
         <div className="w-[27%] relative text-reg ">
-            <BookingCard />
+            <BookingCard 
+                availability={guide.availability} 
+                not_available={guide.not_available}
+            />
         </div>
     </>        
     )

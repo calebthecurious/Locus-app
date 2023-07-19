@@ -1,9 +1,11 @@
 "use client"
 import React, { useState } from 'react';
-import { partySize } from '../../../../data';
+import { partySize, times } from '../../../../data';
 import DatePicker from 'react-datepicker';
 
-export default function BookingCard() {
+export default function BookingCard({
+    availability, not_available
+}: {availability: string, not_available: string}) {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
 
     const handleChangeDate = (date: Date | null) => {
@@ -12,6 +14,28 @@ export default function BookingCard() {
         }
         return setSelectedDate(null);
     };
+
+    const filterTimeByGuideAvailableWindow = () => {
+
+        const timesWithinWindow:  typeof times = [];
+
+        let isWithinWindow = false;
+
+        times.forEach((time) => {
+            if (time.time === availability) {
+                isWithinWindow = true;
+            }
+            if (isWithinWindow) {
+                timesWithinWindow.push(time)
+            }
+            if(time.time === not_available){
+                isWithinWindow = false
+            }
+        });
+
+        return timesWithinWindow;
+    };
+    
 
     return (
  
@@ -53,8 +77,9 @@ export default function BookingCard() {
                 <div className="flex flex-col w-[48%]">
                 <label htmlFor="">Time</label>
                 <select name="" id="" className="py-3 border-b font-light">
-                    <option value="">7:30 AM</option>
-                    <option value="">9:00 AM</option>
+                    {filterTimeByGuideAvailableWindow().map(time => (
+                        <option value={time.time}>{time.displayTime}</option>
+                    ))}
                 </select>
                 </div>
             </div>
@@ -64,3 +89,4 @@ export default function BookingCard() {
         </div>
     )
 }
+ 

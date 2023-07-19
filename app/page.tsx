@@ -35,7 +35,7 @@ const fetchGuides = async (): Promise<GuideCardType[]> => {
 export default async function Home() {
   const guides = await fetchGuides();
 
-
+  console.log({ guides });
   return (
 
       <main>
